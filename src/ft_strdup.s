@@ -3,7 +3,6 @@ section .text
 	extern _malloc
 	extern _ft_strlen
 	extern _ft_memcpy
-	extern _ft_puts
 
 _ft_strdup:
 	push rbp ; 1
@@ -11,6 +10,7 @@ _ft_strdup:
 	sub rsp, 16 ; 3 on decale la stak voir forum sinon 16 byte aligned error
 	push rdi ; save la chaine rdi
 	call _ft_strlen
+	inc rax
 	push rax ; save la longueur 
 	mov rdi, rax
 	call _malloc
@@ -19,11 +19,15 @@ _ft_strdup:
 	mov rdi, rax ; place la memoir dans rdi
 	pop rdx ; recupere la longeur len
 	pop rsi ; recupere la chaine rdi du 1er push
+	push rdx
 	call _ft_memcpy
 	mov rsp, rbp; on remet rsp
 	pop rbp; on recupere la stack d'avant
 	ret
 
 _end:
+	mov rsp, rbp; on remet rsp
+	pop rbp; on recupere la stack d'avant
+	ret
 	mov rax, 0
 	ret
